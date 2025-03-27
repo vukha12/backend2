@@ -57,3 +57,97 @@ order by
     total_orders desc
 limit
     7;
+
+--câu 6:
+select
+    o.user_id,
+    u.user_name,
+    o.order_id,
+    GROUP_CONCAT(p.product_name, '') products_list
+from
+    order_details od
+    join orders o on od.order_id = o.order_id
+    join users u on o.user_id = u.user_id
+    join products p on od.product_id = p.product_id
+where
+    p.product_name like '%Samsung%'
+    or p.product_name like '%Apple%'
+group by
+    o.order_id;
+
+--câu 7:
+select
+    o.user_id,
+    u.user_name,
+    o.order_id,
+    SUM(p.product_price) total_price
+from
+    order_details od
+    join orders o on o.order_id = od.order_id
+    join products p on p.product_id = od.product_id
+    join users u on u.user_id = o.user_id
+group by
+    o.order_id
+order by
+    o.order_id;
+
+--câu 8:
+-- SELECT
+--     user_id,
+--     user_name,
+--     order_id,
+--     tong_tien
+-- FROM
+--     (
+--         SELECT
+--             users.user_id,
+--             users.user_name,
+--             orders.order_id,
+--             SUM(products.product_price) AS tong_tien,
+--             ROW_NUMBER() OVER (
+--                 PARTITION BY users.user_id
+--                 ORDER BY
+--                     SUM(products.product_price) DESC
+--             ) AS rn
+--         FROM
+--             users
+--             JOIN orders ON users.user_id = orders.user_id
+--             JOIN order_details ON orders.order_id = order_details.order_id
+--             JOIN products ON order_details.product_id = products.product_id
+--         GROUP BY
+--             users.user_id,
+--             users.user_name,
+--             orders.order_id
+--     ) AS t
+-- WHERE
+--     rn = 1;
+-- SELECT
+--     user_id,
+--     user_name,
+--     order_id,
+--     tong_tien
+-- FROM
+--     (
+--         SELECT
+--             users.user_id,
+--             users.user_name,
+--             orders.order_id,
+--             SUM(products.product_price) AS tong_tien,
+--             ROW_NUMBER() OVER (
+--                 PARTITION BY users.user_id
+--                 ORDER BY
+--                     SUM(products.product_price) DESC
+--             ) AS rn
+--         FROM
+--             users
+--             JOIN orders ON users.user_id = orders.user_id
+--             JOIN order_details ON orders.order_id = order_details.order_id
+--             JOIN products ON order_details.product_id = products.product_id
+--         GROUP BY
+--             users.user_id,
+--             users.user_name,
+--             orders.order_id
+--     ) AS t
+-- WHERE
+--     rn = 1;
+--câu 9:
