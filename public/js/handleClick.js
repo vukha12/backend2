@@ -4,11 +4,11 @@ const currentPath = window.location.pathname.split("/").pop();
 console.log(currentPath);
 
 links.forEach((link) => {
-    const linkPath = link.getAttribute("href");
+  const linkPath = link.getAttribute("href");
 
-    if (linkPath === currentPath) {
-        link.classList.add("active");
-    } else {
-        link.classList.remove("active");
-    }
+  if (linkPath === currentPath) {
+    link.classList.add("active");
+  } else {
+    link.classList.remove("active");
+  }
 });
